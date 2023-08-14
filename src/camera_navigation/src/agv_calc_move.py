@@ -17,7 +17,7 @@ def generateGoal():
     gTt.header.frame_id = 'new_nav_goal'
     gTt.child_frame_id = 'basic_shapes'
     gTt.transform.translation = [0, 0, 0.6]
-    gTt.transform.rotation = quaternion_from_euler(3.14/4, 0, 3.14/4)
+    gTt.transform.rotation = quaternion_from_euler(3.14, 0, 0)
     return gTt
 
 

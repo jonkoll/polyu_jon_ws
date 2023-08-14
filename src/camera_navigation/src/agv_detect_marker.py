@@ -8,7 +8,7 @@ import tf
 from tf.broadcaster import TransformBroadcaster
 import tf_conversions
 import time
-from sys import exit
+
 
 class ImageConverter:
     def __init__(self):
