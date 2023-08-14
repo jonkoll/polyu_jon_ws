@@ -1,0 +1,13 @@
+digraph G {
+"odom" -> "base_link"[label="Broadcaster: /ekf_localization\nAverage rate: 50.422 Hz\nMost recent transform: 1690964365.842 ( 0.051 sec old)\nBuffer length: 4.859 sec\n"];
+"map" -> "odom"[label="Broadcaster: /amcl\nAverage rate: 12.011 Hz\nMost recent transform: 1690964367.087 ( -1.194 sec old)\nBuffer length: 4.912 sec\n"];
+"joint6_flange" -> "basic_shapes"[label="Broadcaster: /detect_marker\nAverage rate: 14.136 Hz\nMost recent transform: 1690964365.859 ( 0.034 sec old)\nBuffer length: 4.810 sec\n"];
+edge [style=invis];
+ subgraph cluster_legend { style=bold; color=black; label ="view_frames Result";
+"Recorded at time: 1690964365.893"[ shape=plaintext ] ;
+ }->"map";
+edge [style=invis];
+ subgraph cluster_legend { style=bold; color=black; label ="view_frames Result";
+"Recorded at time: 1690964365.893"[ shape=plaintext ] ;
+ }->"joint6_flange";
+}
