@@ -10,16 +10,22 @@ from geometry_msgs.msg import TransformStamped
 from tf.transformations import euler_from_quaternion, quaternion_from_euler
 import tf.transformations
 
-def generateGoal():
+def generate_gTt():
     gTt = TransformStamped()
     gTt.header.seq = 1
     gTt.header.stamp = rospy.Time.now()
-    gTt.header.frame_id = 'new_nav_goal'
-    gTt.child_frame_id = 'basic_shapes'
-    gTt.transform.translation = [0, 0, 0.6]
-    gTt.transform.rotation = quaternion_from_euler(3.14, 0, 0)
+    gTt.header.frame_id = 'new_nav_goal'        #the new goal frame to which we want to move the car
+    gTt.child_frame_id = 'basic_shapes'         #the target ARUCO code
+    gTt.transform.translation = [0, 0, 0.5]
+    gTt.transform.rotation = quaternion_from_euler(0, 0, 1.57)
     return gTt
 
+def generate_gTm_template():
+    gTm = TransformStamped()
+    gTm.header.seq = 0
+    gTm.header.frame_id = 'new_nav_goal'
+    gTm.child_frame_id  = 'map'
+    return gTm
 
 def transformChain(aTb, bTc, aTc_old):
     aTc = TransformStamped()
@@ -52,11 +58,9 @@ if __name__ == '__main__':
     rospy.init_node('agv_calc_move')
     tfBuffer = tf2_ros.Buffer()
     listener_tTm = tf2_ros.TransformListener(tfBuffer)       # transform from map to camera
-    gTt = generateGoal()
-    gTm = TransformStamped()
-    gTm.header.seq = 0
-    gTm.header.frame_id = 'basic_shapes'
-    gTm.child_frame_id  = 'camera'
+    gTt = generate_gTt()
+    gTm = generate_gTm_template()
+
     rate = rospy.Rate(1)
     new_goal_broadcaster = tf.TransformBroadcaster()
 
@@ -64,7 +68,7 @@ if __name__ == '__main__':
 
     while not rospy.is_shutdown():
         try:
-            tTm = tfBuffer.lookup_transform('basic_shapes', 'camera', rospy.Time())
+            tTm = tfBuffer.lookup_transform('basic_shapes', 'map', rospy.Time())
             target_visible = True
         except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
             target_visible = False
@@ -72,7 +76,6 @@ if __name__ == '__main__':
         if target_visible:
             gTm = transformChain(gTt, tTm, gTm)
             new_goal_broadcaster.sendTransform(gTm.transform.translation, gTm.transform.rotation, rospy.Time.now(), "new_nav_goal", "camera")
-           
         rate.sleep()
 
         

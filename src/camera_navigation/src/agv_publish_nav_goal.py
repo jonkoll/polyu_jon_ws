@@ -8,7 +8,7 @@ from move_base_msgs.msg import MoveBaseActionGoal
 from geometry_msgs.msg import TransformStamped, Point
 from tf.transformations import euler_from_quaternion, quaternion_from_euler
 import tf.transformations
-from sys import exit
+import os
 
 def generateMBAG(gTm, gTm_quat_corrected, gTm_tran_corrected):
     gTm_MBAG = MoveBaseActionGoal()
@@ -16,6 +16,7 @@ def generateMBAG(gTm, gTm_quat_corrected, gTm_tran_corrected):
     gTm_MBAG.goal_id.stamp = rospy.Time.now()
     gTm_MBAG.goal_id.id = 'NEWGOAL'
     gTm_MBAG.goal.target_pose.header = gTm.header
+    gTm_MBAG.goal.target_pose.header.frame_id = "map"
     gTm_MBAG.goal.target_pose.pose.position.x = gTm_tran_corrected[0]
     gTm_MBAG.goal.target_pose.pose.position.y = gTm_tran_corrected[1]
     gTm_MBAG.goal.target_pose.pose.position.z = gTm_tran_corrected[2]
@@ -66,12 +67,19 @@ if __name__ == "__main__":
             gTm_tran_corrected = tf.transformations.translation_from_matrix(gTm_mat_corrected)
             
             gTm_MBAG = generateMBAG(gTm, gTm_quat_corrected, gTm_tran_corrected)
-            #print(gTm_MBAG)
-            pub_nav_goal.publish(gTm_MBAG) 
+            print(gTm_MBAG)
             print(euler_from_quaternion([gTm_MBAG.goal.target_pose.pose.orientation.x, gTm_MBAG.goal.target_pose.pose.orientation.y, gTm_MBAG.goal.target_pose.pose.orientation.z, gTm_MBAG.goal.target_pose.pose.orientation.w]))
+            print("goal found, killing other threads")
+            os.system("rosnode kill opencv_camera")
+            os.system("rosnode kill agv_detect_marker")
+            os.system("rosnode kill agv_calc_move")
+            print("publishing goal")
+            pub_nav_goal.publish(gTm_MBAG) 
+            print("commiting")
+            os.system("rosnode kill agv_publish_nav_goal")
+
         rate.sleep()
 
-    print("quitting")
 
 
 

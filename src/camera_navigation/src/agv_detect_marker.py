@@ -70,7 +70,7 @@ class ImageConverter:
                 print("rvec:", rvec, "tvec:", tvec)
 
                 # just select first one detected marker.
-                '''for i in range(rvec.shape[0]):
+                for i in range(rvec.shape[0]):
                     cv.aruco.drawDetectedMarkers(cv_image, corners)
                     cv.aruco.drawAxis(
                         cv_image,
@@ -80,9 +80,9 @@ class ImageConverter:
                         tvec[i, :, :],
                         0.03,
                     )
-                '''
+                
                 xyz = tvec[0, 0, :]
-                xyz = [xyz[0] - 0.045, xyz[1], xyz[2] - 0.03]
+                #xyz = [xyz[0] - 0.045, xyz[1], xyz[2] - 0.03]
 
                 # get quaternion for ros.
                 euler = rvec[0, 0, :]
@@ -98,7 +98,7 @@ class ImageConverter:
 
 
         # [x, y, z, -172, 3, -46.8]
-        '''
+        
         cv.imshow("Image", cv_image)       #display image, commented for speed
         #rospy.sleep(1)            #wait a bit after transform sent, for speed
 
@@ -107,7 +107,7 @@ class ImageConverter:
             pass
         except CvBridgeError as e:
             print(e)
-        '''
+        
         
 if __name__ == "__main__":
     try:
