@@ -82,18 +82,18 @@ class ImageConverter:
                     )
                 
                 xyz = tvec[0, 0, :]
-                #xyz = [xyz[0] - 0.045, xyz[1], xyz[2] - 0.03]
-
+                xyz = [xyz[0] - 0.045, xyz[1], xyz[2] - 0.03]
+                print('xyz: ', xyz) 
                 # get quaternion for ros.
                 euler = rvec[0, 0, :]
                 tf_change = tf.transformations.quaternion_from_euler(
-                    euler[0], euler[1], euler[2]
+                    euler[0], euler[1], 0 # euler[2]
                 )
-                print("tf_change:", tf_change)
+                #print("tf_change:", tf_change)
 
                 # trans pose according [joint1]
                 self.br.sendTransform(
-                    xyz, tf_change, rospy.Time.now(), "basic_shapes", "camera"
+                    xyz, tf_change, rospy.Time.now(), "basic_shapes", "camera_aruco"
                 )
 
 

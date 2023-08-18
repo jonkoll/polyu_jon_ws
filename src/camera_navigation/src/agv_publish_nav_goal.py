@@ -14,12 +14,12 @@ def generateMBAG(gTm, gTm_quat_corrected, gTm_tran_corrected):
     gTm_MBAG = MoveBaseActionGoal()
     gTm_MBAG.header = gTm.header
     gTm_MBAG.goal_id.stamp = rospy.Time.now()
-    gTm_MBAG.goal_id.id = 'NEWGOAL'
+    gTm_MBAG.goal_id.id = ''
     gTm_MBAG.goal.target_pose.header = gTm.header
-    gTm_MBAG.goal.target_pose.header.frame_id = "map"
+    gTm_MBAG.goal.target_pose.header.frame_id = 'map'
     gTm_MBAG.goal.target_pose.pose.position.x = gTm_tran_corrected[0]
     gTm_MBAG.goal.target_pose.pose.position.y = gTm_tran_corrected[1]
-    gTm_MBAG.goal.target_pose.pose.position.z = gTm_tran_corrected[2]
+    gTm_MBAG.goal.target_pose.pose.position.z = 0 # gTm_tran_corrected[2]
     gTm_MBAG.goal.target_pose.pose.orientation.x = gTm_quat_corrected[0]
     gTm_MBAG.goal.target_pose.pose.orientation.y = gTm_quat_corrected[1]
     gTm_MBAG.goal.target_pose.pose.orientation.z = gTm_quat_corrected[2]
@@ -49,7 +49,6 @@ if __name__ == "__main__":
             print(gTm)
 
             gTm_quat = gTm.transform.rotation    
-            #print(euler_from_quaternion(gTm.transform.rotation))       
             gTm_tran = gTm.transform.translation
             gTm_quat = [gTm_quat.x, gTm_quat.y, gTm_quat.z, gTm_quat.w]
             gTm_tran = [gTm_tran.x, gTm_tran.y, gTm_tran.z]        

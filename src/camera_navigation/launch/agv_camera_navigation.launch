@@ -1,11 +1,14 @@
 <launch>
 	<arg name="num" default="0" />
-
+	<node pkg="tf2_ros" type="static_transform_publisher" name="aruco_camera_broadcaster" args="0 0 0 3.14 0 0 camera camera_aruco" />
 	<node name="opencv_camera" pkg="mycobot_280" type="opencv_camera" args="$(arg num)"/>
 
 	<node name="agv_detect_marker" pkg="camera_navigation" type="agv_detect_marker.py" />
-	<node name="agv_calc_move" pkg="camera_navigation" type="agv_calc_move.py" />
+
+	<node name="agv_calc_move" pkg="camera_navigation" type="agv_calc_move.py" />	
+	<!--
+
 	<node name="agv_publish_nav_goal" pkg="camera_navigation" type="agv_publish_nav_goal.py" />
-			<!--
+
 -->
 </launch>
