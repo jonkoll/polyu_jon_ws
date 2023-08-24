@@ -93,7 +93,7 @@ class ImageConverter:
 
                 # trans pose according [joint1]
                 self.br.sendTransform(
-                    xyz, tf_change, rospy.Time.now(), "basic_shapes", "camera_aruco"
+                    xyz, tf_change, rospy.Time.now(), "target", "camera_aruco"
                 )
 
 
