@@ -38,7 +38,7 @@ if __name__ == "__main__":
     print('starting loop')
     while not rospy.is_shutdown():
         try:
-            gTm = tfBuffer.lookup_transform('new_nav_goal', 'map', rospy.Time())
+            gTm = tfBuffer.lookup_transform('map', 'new_nav_goal', rospy.Time.now())
             new_goal = True
             print('we have one')
         except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
@@ -46,6 +46,7 @@ if __name__ == "__main__":
             continue
     
         if new_goal:
+
             print(gTm)
 
             gTm_quat = gTm.transform.rotation    
@@ -66,16 +67,15 @@ if __name__ == "__main__":
             gTm_tran_corrected = tf.transformations.translation_from_matrix(gTm_mat_corrected)
             
             gTm_MBAG = generateMBAG(gTm, gTm_quat_corrected, gTm_tran_corrected)
-            print(gTm_MBAG)
-            print(euler_from_quaternion([gTm_MBAG.goal.target_pose.pose.orientation.x, gTm_MBAG.goal.target_pose.pose.orientation.y, gTm_MBAG.goal.target_pose.pose.orientation.z, gTm_MBAG.goal.target_pose.pose.orientation.w]))
-            print("goal found, killing other threads")
-            os.system("rosnode kill opencv_camera")
-            os.system("rosnode kill agv_detect_marker")
-            os.system("rosnode kill agv_calc_move")
+            #print(gTm_MBAG)
+            #print(euler_from_quaternion([gTm_MBAG.goal.target_pose.pose.orientation.x, gTm_MBAG.goal.target_pose.pose.orientation.y, gTm_MBAG.goal.target_pose.pose.orientation.z, gTm_MBAG.goal.target_pose.pose.orientation.w]))
+            #print("goal found, killing other threads")
+            #os.system("rosnode kill opencv_camera")
+            #os.system("rosnode kill agv_detect_marker")
+            #os.system("rosnode kill agv_calc_move")
             print("publishing goal")
             pub_nav_goal.publish(gTm_MBAG) 
-            print("commiting")
-            os.system("rosnode kill agv_publish_nav_goal")
+            raw_input("Press any key to read code and navigate to goal again")      
 
         rate.sleep()
 
