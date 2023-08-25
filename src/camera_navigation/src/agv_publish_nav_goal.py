@@ -29,7 +29,7 @@ def generateMBAG(gTm, gTm_mat_corrected):      #goals sent as MoveBaseActionGoal
     gTm_MBAG.goal.target_pose.pose.orientation.w = gTm_quat_corrected[3]
     return gTm_MBAG
 
-def correct_gTm(gTm):           #remove rotation not about Z-axis 
+def correct_gTm(gTm):           #remove any rotation not about Z-axis 
     gTm_quat = gTm.transform.rotation    
     gTm_tran = gTm.transform.translation
     gTm_quat = [gTm_quat.x, gTm_quat.y, gTm_quat.z, gTm_quat.w]

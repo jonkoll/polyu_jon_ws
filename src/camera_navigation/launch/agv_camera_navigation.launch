@@ -6,8 +6,7 @@
 
 	<node name="opencv_camera"     pkg="mycobot_280"       type="opencv_camera" args="$(arg num)"/>
 	<node name="agv_detect_marker" pkg="camera_navigation" type="agv_detect_marker.py"/>
-	
 	<!-- Should be run in own tab
-	<node name="agv_publish_nav_goal" pkg="camera_navigation" type="agv_publish_nav_goal.py" />
+	<node name="agv_publish_nav_goal" pkg="camera_navigation" type="agv_publish_nav_goal.py" output="screen"/>
 	-->
 </launch>
