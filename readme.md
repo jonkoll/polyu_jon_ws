@@ -5,6 +5,7 @@ In the launchfile, a goal frame relative to this target frame is calculated. Onc
 
 # DEMO MANUAL
 To demo the package:
+
 0. Print out an ARUCO-code and place it in a suitable location. Decide on a goal position and orientation relative to this target. Alter agv_camera_navigation.launch in accordance. 
 1. Use the navigation_demo package to build a map of the area in which the vehicle will operate (`roslaunch navigation_demo slam.launch`)
 2. Run navigation_demo, and navigate the vehicle to somewhere from which the target can be seen (`roslaunch navigation_demo navigation.launch`)
@@ -26,4 +27,4 @@ There are no known bugs in the software, but it has not been subject to rigorous
 # SUGGESTIONS FOR FUTURE EXPANSIONS
 The myAGV vehicle is marketed as being able to navigate using LIDAR-based SLAM, fine-tune its position and orientation using computer vision, allowing a robot arm attached to it to then pick up an object. The navigation_demo package does the first and this package the second, but the software for the third step is still missing. 
 
-Tweaking this package for a setup with an object located somewhere near a target, making the vehicle move close to it, should be reasonably simple. More complex setups with multiple codes would be possible, but using the extra information effectively would require some clever thinking. 
+Tweaking this package for a setup with an object located somewhere near a target, making the vehicle move close to it, should be reasonably simple. My impression is that based on the provided code having the arm then pick up an object should not be too difficult. The interactions between the arm and the vehicle (assuming no problems in making them communicate at all) should be easily manageable with ROS.
