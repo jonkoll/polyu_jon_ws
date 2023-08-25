@@ -4,9 +4,9 @@
 	<node pkg="tf2_ros" type="static_transform_publisher" name="gTt_base_broadcaster"     args="  0  0 0.5       1.57 1.57   0     target       base_goal"/>
 	<node pkg="tf2_ros" type="static_transform_publisher" name="goal_broadcaster"         args="  0  0  0          0    0    0     base_goal    new_nav_goal" />
 
-	<node name="opencv_camera"     pkg="mycobot_280"       type="opencv_camera" args="$(arg num)"/>
-	<node name="agv_detect_marker" pkg="camera_navigation" type="agv_detect_marker.py"/>
+	<node name="opencv_camera"     pkg="mycobot_280"           type="opencv_camera" args="$(arg num)"/>
+	<node name="agv_detect_marker" pkg="agv_camera_navigation" type="agv_detect_marker.py"/>
 	<!-- Should be run in own tab
-	<node name="agv_publish_nav_goal" pkg="camera_navigation" type="agv_publish_nav_goal.py" output="screen"/>
+	<node name="agv_publish_nav_goal" pkg="agv_camera_navigation" type="agv_publish_nav_goal.py" output="screen"/>
 	-->
 </launch>
